@@ -1,0 +1,2064 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="11/13/2014 7:54:05 PM"
+  DTS:CreationName="SSIS.Package.3"
+  DTS:CreatorComputerName="CRPBCBF4667085L"
+  DTS:CreatorName="FNBJNB01\F4667085"
+  DTS:DTSID="{E0CDFC32-E184-486C-8E55-FF801A8129F0}"
+  DTS:ExecutableType="SSIS.Package.3"
+  DTS:LastModifiedProductVersion="11.0.5583.0"
+  DTS:LocaleID="7177"
+  DTS:ObjectName="Step 0000 - Omnia - Run_Solution"
+  DTS:PackageType="5"
+  DTS:SuppressConfigurationWarnings="True"
+  DTS:VersionBuild="313"
+  DTS:VersionGUID="{6059FD00-01D4-4BEC-A96B-2B04BA633965}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">6</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ETLStructures]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{CF5085DA-FA38-4121-A4AD-E244290F9E25}"
+      DTS:ObjectName="ETLStructures">
+      <DTS:PropertyExpression
+        DTS:Name="ExcelFilePath">@[User::Logging_ETLMetaData_Folder] + "ETLMasterDataStructures.xls"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\SSIS\Entelect\ETLMasterDataStructures.xls;Extended Properties=&quot;EXCEL 8.0;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SMTP Connection Manager]"
+      DTS:CreationName="SMTP"
+      DTS:DTSID="{53398116-5CE6-4B0E-B373-12A10029031C}"
+      DTS:ObjectName="SMTP Connection Manager">
+      <DTS:ObjectData>
+        <SmtpConnectionManager
+          ConnectionString="SmtpServer=10.33.131.31;UseWindowsAuthentication=False;EnableSsl=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SSIS Configurations]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{1CB2FDE2-DA7E-4436-9F1E-B51A02BCF94F}"
+      DTS:ObjectName="SSIS Configurations">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=OBY-OFRT-SR-02\SQL2014;Initial Catalog=SSIS_Configurations;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:CreationName="DTS.LogProviderEventLog.3"
+      DTS:Description="Writes log entries for events to the Event Log"
+      DTS:DTSID="{FEA86FF5-9DCE-4A0E-B507-AB800688D337}"
+      DTS:ObjectName="SSIS log provider for Windows Event Log1">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0D55F04C-4DCD-4AAA-B27C-E5A57DCA3775}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ETL_FolderName_Base">
+      <DTS:VariableValue
+        DTS:DataType="8">E:\Production\trunk\SSIS Packages\Daily_FEDS_Table_Loads\Daily_FEDS_Table_Loads\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{26AB202B-6CE0-4C8C-A933-92CD63BF51F6}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="SUBSTRING((DT_WSTR,30)(DATEADD(&quot;dd&quot;,-10,GETDATE())),1,10) "
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ETL_MinDateRun">
+      <DTS:VariableValue
+        DTS:DataType="8">2017-06-30</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{401CD7BD-940F-4BD4-A6BA-E3011BF38241}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Logging_ETLFolderBase">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A6D365D4-8CFF-4F0F-AC51-8EF0F93A1B39}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Logging_ETLJobID">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{AAA89B32-77D9-435B-BD04-06AFB02FA04D}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Logging_ETLMetaData_Folder">
+      <DTS:VariableValue
+        DTS:DataType="8">C:\SSIS\Entelect\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{DD706CFE-039E-4E12-B820-EBB4657285C9}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Logging_ETLName">
+      <DTS:VariableValue
+        DTS:DataType="8">LoggingTemplateETL</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{821489C2-BBED-4F81-A9B4-66465704A699}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="Logging_ETL_ForceRun_Test">
+      <DTS:VariableValue
+        DTS:DataType="11">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{F59B3072-A5F3-4E0C-8E22-93906F8AAEE4}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXECUTE dbo.sproc_SSIS_ExecutionLog_LogIndexUpdate '&quot; +  @[System::PackageName] + &quot;','&quot; +  (DT_WSTR,50)@[System::PackageID] + &quot;','&quot; +  (DT_WSTR,50)@[User::Logging_ETLJobID] + &quot;'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Logging_ETL_Indexing">
+      <DTS:VariableValue
+        DTS:DataType="8">EXECUTE dbo.sproc_SSIS_ExecutionLog_LogIndexUpdate 'Step 0000 - Omnia - Run_Solution','{E0CDFC32-E184-486C-8E55-FF801A8129F0}','0'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C0AEE5AF-F46E-4CA5-814F-4007B333238A}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Logging_ETL_SolutionProgress_WhileCondition">
+      <DTS:VariableValue
+        DTS:DataType="8">False</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7A0AAE8B-3171-45E8-A9A3-D0EA365CDF50}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXECUTE dbo.sproc_SSIS_ExecutionLog_ETLJobBaseStatus '&quot; +  @[System::PackageID] + &quot;','Success'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Logging_SQL_LogJobBase_End">
+      <DTS:VariableValue
+        DTS:DataType="8">EXECUTE dbo.sproc_SSIS_ExecutionLog_ETLJobBaseStatus '{E0CDFC32-E184-486C-8E55-FF801A8129F0}','Success'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{954661F7-AFDA-41E8-951E-F714A40135B1}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT dbo.sfunc_SSIS_ExecutionLog_ETLJobBaseStart_GetJobID ('&quot; +  @[System::PackageID] + &quot;') AS JobID&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Logging_SQL_LogJobBase_GetJobID">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT dbo.sfunc_SSIS_ExecutionLog_ETLJobBaseStart_GetJobID ('{E0CDFC32-E184-486C-8E55-FF801A8129F0}') AS JobID</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{AEF1DF5A-B190-4B4E-821C-A9D53BD2480F}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXECUTE  dbo.sproc_SSIS_ExecutionLog_ETLJobBaseStart '&quot; +  @[System::MachineName] + &quot;' , '&quot; + @[System::UserName] + &quot;' , '&quot; + @[System::PackageName] + &quot;' , ' ' , '&quot; + @[System::PackageID] + &quot;','&quot; +  @[System::ExecutionInstanceGUID] + &quot;'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Logging_SQL_LogJobBase_Start">
+      <DTS:VariableValue
+        DTS:DataType="8">EXECUTE  dbo.sproc_SSIS_ExecutionLog_ETLJobBaseStart 'BRENDONNSC-PC' , 'ENTELECT\brendonn.schoeman' , 'Step 0000 - Omnia - Run_Solution' , ' ' , '{E0CDFC32-E184-486C-8E55-FF801A8129F0}','{175CDB49-DBD8-474A-8439-EACC87D56F99}'</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">2,13,OnInformation,10,OnProgress</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnInformation"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnProgress"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{FEA86FF5-9DCE-4A0E-B507-AB800688D337}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\ETL Logging Finalisation"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{7B291AD3-1539-4BC3-8169-867D3E5EBB13}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="ETL Logging Finalisation">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\ETL Logging Finalisation\Finalization Step - Log Base Details"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{E0ABD75B-7F94-4709-B7B2-DD2C1872730D}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Finalization Step - Log Base Details"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{1CB2FDE2-DA7E-4436-9F1E-B51A02BCF94F}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::Logging_SQL_LogJobBase_End" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\ETL Logging Initialization"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{19EB68AE-0E32-4494-A062-38615DC2D379}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="ETL Logging Initialization">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\ETL Logging Initialization\Get ETL JobID"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{34DA96DF-DCA3-4377-AB10-2A72FBBE0BA1}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Get ETL JobID"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{1CB2FDE2-DA7E-4436-9F1E-B51A02BCF94F}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::Logging_SQL_LogJobBase_GetJobID"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="JobID"
+                SQLTask:DtsVariableName="User::Logging_ETLJobID" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\ETL Logging Initialization\Initialization Step - Log Base Details"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{973B7A1E-844D-4B31-B272-733AD4D992DA}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Initialization Step - Log Base Details"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{1CB2FDE2-DA7E-4436-9F1E-B51A02BCF94F}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::Logging_SQL_LogJobBase_Start" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\ETL Logging Initialization.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{74E14DAA-8223-4746-8ADA-E685D428CDDC}"
+          DTS:From="Package\ETL Logging Initialization\Initialization Step - Log Base Details"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\ETL Logging Initialization\Get ETL JobID" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Metadata Report Recipients"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{C83C7383-C814-47B4-AB2E-420234D24352}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Metadata Report Recipients">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Metadata Report Recipients\Load ETLReportRecipients"
+          DTS:CreationName="SSIS.Pipeline.3"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{DEC49564-18AE-49E5-9A1F-E4E7C5ABE41F}"
+          DTS:ExecutableType="SSIS.Pipeline.3"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load ETLReportRecipients"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              BLOBTempStoragePath=""
+              bufferTempStoragePath=""
+              version="1">
+              <components>
+                <component
+                  refId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients"
+                  componentClassID="{8C084929-27D1-479F-9641-ABB7CDADF1AC}"
+                  contactInfo="Excel Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Excel Source"
+                  name="ReportRecipients"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">ReportRecipients$</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mapping from parameters in the SQL command to variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[ETLStructures]"
+                      connectionManagerRefId="Package.ConnectionManagers[ETLStructures]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output]"
+                      name="Excel Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].Columns[ETLName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].ExternalColumns[ETLName]"
+                          length="255"
+                          lineageId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].Columns[ETLName]"
+                          name="ETLName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].Columns[PackageName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].ExternalColumns[PackageName]"
+                          length="255"
+                          lineageId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].Columns[PackageName]"
+                          name="PackageName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].Columns[BasePackageName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].ExternalColumns[BasePackageName]"
+                          length="255"
+                          lineageId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].Columns[BasePackageName]"
+                          name="BasePackageName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].Columns[ProductName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].ExternalColumns[ProductName]"
+                          length="255"
+                          lineageId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].Columns[ProductName]"
+                          name="ProductName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].Columns[SubProductName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].ExternalColumns[SubProductName]"
+                          length="255"
+                          lineageId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].Columns[SubProductName]"
+                          name="SubProductName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].Columns[PackageType]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].ExternalColumns[PackageType]"
+                          length="255"
+                          lineageId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].Columns[PackageType]"
+                          name="PackageType"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].Columns[Recipients]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].ExternalColumns[Recipients]"
+                          length="255"
+                          lineageId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].Columns[Recipients]"
+                          name="Recipients"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].ExternalColumns[ETLName]"
+                          dataType="wstr"
+                          length="255"
+                          name="ETLName" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].ExternalColumns[PackageName]"
+                          dataType="wstr"
+                          length="255"
+                          name="PackageName" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].ExternalColumns[BasePackageName]"
+                          dataType="wstr"
+                          length="255"
+                          name="BasePackageName" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].ExternalColumns[ProductName]"
+                          dataType="wstr"
+                          length="255"
+                          name="ProductName" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].ExternalColumns[SubProductName]"
+                          dataType="wstr"
+                          length="255"
+                          name="SubProductName" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].ExternalColumns[PackageType]"
+                          dataType="wstr"
+                          length="255"
+                          name="PackageType" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].ExternalColumns[Recipients]"
+                          dataType="wstr"
+                          length="255"
+                          name="Recipients" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Error Output]"
+                      isErrorOut="true"
+                      name="Excel Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Error Output].Columns[ETLName]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Error Output].Columns[ETLName]"
+                          name="ETLName" />
+                        <outputColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Error Output].Columns[BasePackageName]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Error Output].Columns[BasePackageName]"
+                          name="BasePackageName" />
+                        <outputColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Error Output].Columns[PackageName]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Error Output].Columns[PackageName]"
+                          name="PackageName" />
+                        <outputColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Error Output].Columns[ProductName]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Error Output].Columns[ProductName]"
+                          name="ProductName" />
+                        <outputColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Error Output].Columns[SubProductName]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Error Output].Columns[SubProductName]"
+                          name="SubProductName" />
+                        <outputColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Error Output].Columns[PackageType]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Error Output].Columns[PackageType]"
+                          name="PackageType" />
+                        <outputColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Error Output].Columns[Recipients]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Error Output].Columns[Recipients]"
+                          name="Recipients" />
+                        <outputColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients"
+                  componentClassID="{4ADA7EAA-136C-4215-8098-D7A7C27FC0D1}"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="SSIS_ExecutionLog_ETLMetadataReportRecipients"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[stg_SSIS_ExecutionLog_ETLMetadataReportRecipients]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[SSIS Configurations]"
+                      connectionManagerRefId="Package.ConnectionManagers[SSIS Configurations]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Inputs[OLE DB Destination Input].Columns[ETLName]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="ETLName"
+                          externalMetadataColumnId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Inputs[OLE DB Destination Input].ExternalColumns[ETLName]"
+                          lineageId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].Columns[ETLName]" />
+                        <inputColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Inputs[OLE DB Destination Input].Columns[PackageName]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="PackageName"
+                          externalMetadataColumnId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Inputs[OLE DB Destination Input].ExternalColumns[PackageName]"
+                          lineageId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].Columns[PackageName]" />
+                        <inputColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Inputs[OLE DB Destination Input].Columns[BasePackageName]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="BasePackageName"
+                          externalMetadataColumnId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Inputs[OLE DB Destination Input].ExternalColumns[BasePackageName]"
+                          lineageId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].Columns[BasePackageName]" />
+                        <inputColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Inputs[OLE DB Destination Input].Columns[ProductName]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="ProductName"
+                          externalMetadataColumnId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Inputs[OLE DB Destination Input].ExternalColumns[ProductName]"
+                          lineageId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].Columns[ProductName]" />
+                        <inputColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Inputs[OLE DB Destination Input].Columns[SubProductName]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="SubProductName"
+                          externalMetadataColumnId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Inputs[OLE DB Destination Input].ExternalColumns[SubProductName]"
+                          lineageId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].Columns[SubProductName]" />
+                        <inputColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Inputs[OLE DB Destination Input].Columns[PackageType]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="PackageType"
+                          externalMetadataColumnId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Inputs[OLE DB Destination Input].ExternalColumns[PackageType]"
+                          lineageId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].Columns[PackageType]" />
+                        <inputColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Inputs[OLE DB Destination Input].Columns[Recipients]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Recipients"
+                          externalMetadataColumnId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Inputs[OLE DB Destination Input].ExternalColumns[Recipients]"
+                          lineageId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output].Columns[Recipients]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Inputs[OLE DB Destination Input].ExternalColumns[ETLName]"
+                          dataType="wstr"
+                          length="255"
+                          name="ETLName" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Inputs[OLE DB Destination Input].ExternalColumns[PackageName]"
+                          dataType="wstr"
+                          length="255"
+                          name="PackageName" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Inputs[OLE DB Destination Input].ExternalColumns[BasePackageName]"
+                          dataType="wstr"
+                          length="255"
+                          name="BasePackageName" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Inputs[OLE DB Destination Input].ExternalColumns[ProductName]"
+                          dataType="wstr"
+                          length="255"
+                          name="ProductName" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Inputs[OLE DB Destination Input].ExternalColumns[SubProductName]"
+                          dataType="wstr"
+                          length="255"
+                          name="SubProductName" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Inputs[OLE DB Destination Input].ExternalColumns[PackageType]"
+                          dataType="wstr"
+                          length="255"
+                          name="PackageType" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Inputs[OLE DB Destination Input].ExternalColumns[Recipients]"
+                          dataType="wstr"
+                          length="255"
+                          name="Recipients" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Metadata Report Recipients\Load ETLReportRecipients.Paths[Excel Source Output]"
+                  endId="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients.Inputs[OLE DB Destination Input]"
+                  name="Excel Source Output"
+                  startId="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients.Outputs[Excel Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Metadata Report Recipients\MERGE Recipients"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{ED28C86E-D15F-4138-92A4-1C7FB15778C5}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="MERGE Recipients"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{1CB2FDE2-DA7E-4436-9F1E-B51A02BCF94F}"
+              SQLTask:SqlStatementSource="EXECUTE [dbo].[sproc_SSIS_ExecutionLog_ETLMetadataReportRecipients_Merge]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Metadata Report Recipients\Truncate ETLMetadataReportRecipients"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{DE0DEAA4-BD96-446F-9221-0E0A41603C1D}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate ETLMetadataReportRecipients"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{1CB2FDE2-DA7E-4436-9F1E-B51A02BCF94F}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE [dbo].[stg_SSIS_ExecutionLog_ETLMetadataReportRecipients]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Metadata Report Recipients.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{0F3094A9-30DA-4625-BC88-21777AA0FFE0}"
+          DTS:From="Package\Metadata Report Recipients\Load ETLReportRecipients"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Metadata Report Recipients\MERGE Recipients" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Metadata Report Recipients.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{5DA5CE60-E837-49E8-8472-F313E40BAE43}"
+          DTS:From="Package\Metadata Report Recipients\Truncate ETLMetadataReportRecipients"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Metadata Report Recipients\Load ETLReportRecipients" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Metadata Structures"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{230CFB8D-6CA4-434C-ADF8-55C5655684CA}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Metadata Structures">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Metadata Structures\Load ETLStructures"
+          DTS:CreationName="SSIS.Pipeline.3"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{4E0BDCEE-E3EE-49D3-B7CA-A9C52DEC0B28}"
+          DTS:ExecutableType="SSIS.Pipeline.3"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load ETLStructures"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              BLOBTempStoragePath=""
+              bufferTempStoragePath=""
+              version="1">
+              <components>
+                <component
+                  refId="Package\Metadata Structures\Load ETLStructures\ETLStructures"
+                  componentClassID="{8C084929-27D1-479F-9641-ABB7CDADF1AC}"
+                  contactInfo="Excel Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Excel Source"
+                  name="ETLStructures"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">ETLStructures$</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mapping from parameters in the SQL command to variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[ETLStructures]"
+                      connectionManagerRefId="Package.ConnectionManagers[ETLStructures]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output]"
+                      name="Excel Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[ETLName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].ExternalColumns[ETLName]"
+                          length="255"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[ETLName]"
+                          name="ETLName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[PackageName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].ExternalColumns[PackageName]"
+                          length="255"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[PackageName]"
+                          name="PackageName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[TableNames]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].ExternalColumns[TableNames]"
+                          length="255"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[TableNames]"
+                          name="TableNames"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[BasePackageName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].ExternalColumns[BasePackageName]"
+                          length="255"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[BasePackageName]"
+                          name="BasePackageName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[DatabaseNames]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].ExternalColumns[DatabaseNames]"
+                          length="255"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[DatabaseNames]"
+                          name="DatabaseNames"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[SchemaNames]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].ExternalColumns[SchemaNames]"
+                          length="255"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[SchemaNames]"
+                          name="SchemaNames"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[ProductName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].ExternalColumns[ProductName]"
+                          length="255"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[ProductName]"
+                          name="ProductName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[SubProductName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].ExternalColumns[SubProductName]"
+                          length="255"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[SubProductName]"
+                          name="SubProductName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[PackageType]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].ExternalColumns[PackageType]"
+                          length="255"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[PackageType]"
+                          name="PackageType"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[PackageDependencies]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].ExternalColumns[PackageDependencies]"
+                          length="255"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[PackageDependencies]"
+                          name="PackageDependencies"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[MinStartTime]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].ExternalColumns[MinStartTime]"
+                          length="255"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[MinStartTime]"
+                          name="MinStartTime"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].ExternalColumns[ETLName]"
+                          dataType="wstr"
+                          length="255"
+                          name="ETLName" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].ExternalColumns[PackageName]"
+                          dataType="wstr"
+                          length="255"
+                          name="PackageName" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].ExternalColumns[TableNames]"
+                          dataType="wstr"
+                          length="255"
+                          name="TableNames" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].ExternalColumns[BasePackageName]"
+                          dataType="wstr"
+                          length="255"
+                          name="BasePackageName" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].ExternalColumns[DatabaseNames]"
+                          dataType="wstr"
+                          length="255"
+                          name="DatabaseNames" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].ExternalColumns[SchemaNames]"
+                          dataType="wstr"
+                          length="255"
+                          name="SchemaNames" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].ExternalColumns[ProductName]"
+                          dataType="wstr"
+                          length="255"
+                          name="ProductName" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].ExternalColumns[SubProductName]"
+                          dataType="wstr"
+                          length="255"
+                          name="SubProductName" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].ExternalColumns[PackageType]"
+                          dataType="wstr"
+                          length="255"
+                          name="PackageType" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].ExternalColumns[PackageDependencies]"
+                          dataType="wstr"
+                          length="255"
+                          name="PackageDependencies" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].ExternalColumns[MinStartTime]"
+                          dataType="wstr"
+                          length="255"
+                          name="MinStartTime" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Error Output]"
+                      isErrorOut="true"
+                      name="Excel Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Error Output].Columns[ETLName]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Error Output].Columns[ETLName]"
+                          name="ETLName" />
+                        <outputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Error Output].Columns[BasePackageName]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Error Output].Columns[BasePackageName]"
+                          name="BasePackageName" />
+                        <outputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Error Output].Columns[PackageName]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Error Output].Columns[PackageName]"
+                          name="PackageName" />
+                        <outputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Error Output].Columns[DatabaseNames]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Error Output].Columns[DatabaseNames]"
+                          name="DatabaseNames" />
+                        <outputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Error Output].Columns[SchemaNames]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Error Output].Columns[SchemaNames]"
+                          name="SchemaNames" />
+                        <outputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Error Output].Columns[TableNames]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Error Output].Columns[TableNames]"
+                          name="TableNames" />
+                        <outputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Error Output].Columns[ProductName]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Error Output].Columns[ProductName]"
+                          name="ProductName" />
+                        <outputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Error Output].Columns[SubProductName]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Error Output].Columns[SubProductName]"
+                          name="SubProductName" />
+                        <outputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Error Output].Columns[PackageType]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Error Output].Columns[PackageType]"
+                          name="PackageType" />
+                        <outputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Error Output].Columns[PackageDependencies]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Error Output].Columns[PackageDependencies]"
+                          name="PackageDependencies" />
+                        <outputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Error Output].Columns[MinStartTime]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Error Output].Columns[MinStartTime]"
+                          name="MinStartTime" />
+                        <outputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures"
+                  componentClassID="{4ADA7EAA-136C-4215-8098-D7A7C27FC0D1}"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="SSIS_ExecutionLog_ETLMetadataStructures"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[stg_SSIS_ExecutionLog_ETLMetadataStructures]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[SSIS Configurations]"
+                      connectionManagerRefId="Package.ConnectionManagers[SSIS Configurations]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].Columns[ETLName]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="ETLName"
+                          externalMetadataColumnId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].ExternalColumns[ETLName]"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[ETLName]" />
+                        <inputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].Columns[PackageName]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="PackageName"
+                          externalMetadataColumnId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].ExternalColumns[PackageName]"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[PackageName]" />
+                        <inputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].Columns[TableNames]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="TableNames"
+                          externalMetadataColumnId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].ExternalColumns[TableNames]"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[TableNames]" />
+                        <inputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].Columns[BasePackageName]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="BasePackageName"
+                          externalMetadataColumnId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].ExternalColumns[BasePackageName]"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[BasePackageName]" />
+                        <inputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].Columns[DatabaseNames]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="DatabaseNames"
+                          externalMetadataColumnId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].ExternalColumns[DatabaseNames]"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[DatabaseNames]" />
+                        <inputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].Columns[SchemaNames]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="SchemaNames"
+                          externalMetadataColumnId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].ExternalColumns[SchemaNames]"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[SchemaNames]" />
+                        <inputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].Columns[ProductName]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="ProductName"
+                          externalMetadataColumnId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].ExternalColumns[ProductName]"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[ProductName]" />
+                        <inputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].Columns[SubProductName]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="SubProductName"
+                          externalMetadataColumnId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].ExternalColumns[SubProductName]"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[SubProductName]" />
+                        <inputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].Columns[PackageType]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="PackageType"
+                          externalMetadataColumnId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].ExternalColumns[PackageType]"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[PackageType]" />
+                        <inputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].Columns[PackageDependencies]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="PackageDependencies"
+                          externalMetadataColumnId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].ExternalColumns[PackageDependencies]"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output].Columns[PackageDependencies]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].ExternalColumns[ETLName]"
+                          dataType="wstr"
+                          length="255"
+                          name="ETLName" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].ExternalColumns[PackageName]"
+                          dataType="wstr"
+                          length="255"
+                          name="PackageName" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].ExternalColumns[TableNames]"
+                          dataType="wstr"
+                          length="255"
+                          name="TableNames" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].ExternalColumns[BasePackageName]"
+                          dataType="wstr"
+                          length="255"
+                          name="BasePackageName" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].ExternalColumns[DatabaseNames]"
+                          dataType="wstr"
+                          length="255"
+                          name="DatabaseNames" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].ExternalColumns[SchemaNames]"
+                          dataType="wstr"
+                          length="255"
+                          name="SchemaNames" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].ExternalColumns[ProductName]"
+                          dataType="wstr"
+                          length="255"
+                          name="ProductName" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].ExternalColumns[SubProductName]"
+                          dataType="wstr"
+                          length="255"
+                          name="SubProductName" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].ExternalColumns[PackageType]"
+                          dataType="wstr"
+                          length="255"
+                          name="PackageType" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].ExternalColumns[PackageDependencies]"
+                          dataType="wstr"
+                          length="255"
+                          name="PackageDependencies" />
+                        <externalMetadataColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input].ExternalColumns[MinStartTime]"
+                          dataType="wstr"
+                          length="255"
+                          name="MinStartTime" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Metadata Structures\Load ETLStructures.Paths[Excel Source Output]"
+                  endId="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures.Inputs[OLE DB Destination Input]"
+                  name="Excel Source Output"
+                  startId="Package\Metadata Structures\Load ETLStructures\ETLStructures.Outputs[Excel Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Metadata Structures\MERGE Structures"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{9B930F38-BFDD-40C2-BE85-C26F83BB4E11}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="MERGE Structures"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{1CB2FDE2-DA7E-4436-9F1E-B51A02BCF94F}"
+              SQLTask:SqlStatementSource="EXECUTE dbo.sproc_SSIS_ExecutionLog_ETLMetadataStructues_Merge" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Metadata Structures\Truncate ETLStructures"
+          DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{285181D1-41EA-4AA3-A458-8D7667F44041}"
+          DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate ETLStructures"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{1CB2FDE2-DA7E-4436-9F1E-B51A02BCF94F}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE dbo.stg_SSIS_ExecutionLog_ETLMetadataStructures" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Metadata Structures.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{57CCC0DA-04E2-4E9F-B397-C78C4B2BB4AD}"
+          DTS:From="Package\Metadata Structures\Load ETLStructures"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Metadata Structures\MERGE Structures" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Metadata Structures.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{40F81642-E7BA-422C-88E3-011AFF389EC7}"
+          DTS:From="Package\Metadata Structures\Truncate ETLStructures"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Metadata Structures\Load ETLStructures" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Step 1000"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{EFA30CAA-3A80-4B2C-94A3-CB6163EB9F29}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Step 1000">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Step 1000\1001"
+          DTS:CreationName="SSIS.ExecutePackageTask.3"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{F509C5F5-8492-4CF4-AF23-4E8D416645F9}"
+          DTS:ExecutableType="SSIS.ExecutePackageTask.3"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="1001"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Step 1001 - Omnia - OAP to LIMS.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Step 1000\1002"
+          DTS:CreationName="SSIS.ExecutePackageTask.3"
+          DTS:Description="Execute Package Task"
+          DTS:Disabled="True"
+          DTS:DTSID="{0b7c7767-401c-4e4f-bcdd-33cde80a5c64}"
+          DTS:ExecutableType="SSIS.ExecutePackageTask.3"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="1002"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Step 1002 - Omnia - LIMS to OAP.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Step 1000\1003"
+          DTS:CreationName="SSIS.ExecutePackageTask.3"
+          DTS:Description="Execute Package Task"
+          DTS:Disabled="True"
+          DTS:DTSID="{1793ec5b-4635-4ac2-810b-4b0e3a315506}"
+          DTS:ExecutableType="SSIS.ExecutePackageTask.3"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="1003"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Step 1003 - Omnia - FOS to OAP.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update Configs Indexes"
+      DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{915D0E07-ABA1-43A6-8BF6-DAB41DED346B}"
+      DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update Configs Indexes"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{1CB2FDE2-DA7E-4436-9F1E-B51A02BCF94F}"
+          SQLTask:SqlStmtSourceType="Variable"
+          SQLTask:SqlStatementSource="User::Logging_ETL_Indexing" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{594788AA-1DF2-4F24-B178-10E77F4D759B}"
+      DTS:From="Package\ETL Logging Initialization"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Metadata Structures" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{B5769EC5-593B-480F-A1F7-DDE056895F41}"
+      DTS:From="Package\Step 1000"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Update Configs Indexes" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{F4D6879D-8D92-4A77-B007-4942BE4F1771}"
+      DTS:From="Package\Metadata Structures"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Metadata Report Recipients" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{FEC408BF-FE75-4F76-973A-4F63A0F38BA6}"
+      DTS:From="Package\Update Configs Indexes"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\ETL Logging Finalisation"
+      DTS:Value="2" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{854889AF-2EE8-447C-8744-C4DC4668BD9B}"
+      DTS:From="Package\Metadata Report Recipients"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 6"
+      DTS:To="Package\Step 1000" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql11">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="248,44"
+          Id="Package\ETL Logging Finalisation\Finalization Step - Log Base Details"
+          TopLeft="5.5,5.5" />
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="259.2,104"
+          Size="259.2,148"
+          Id="Package\ETL Logging Finalisation"
+          TopLeft="95.5000000000002,1459.5" />
+        <NodeLayout
+          Size="145.6,44"
+          Id="Package\ETL Logging Initialization\Get ETL JobID"
+          TopLeft="56.5,109.5" />
+        <NodeLayout
+          Size="248,44"
+          Id="Package\ETL Logging Initialization\Initialization Step - Log Base Details"
+          TopLeft="5.5,5.5" />
+        <EdgeLayout
+          Id="Package\ETL Logging Initialization.PrecedenceConstraints[Constraint]"
+          TopLeft="129.5,49.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="259.2,208"
+          Size="259.2,252"
+          Id="Package\ETL Logging Initialization"
+          TopLeft="95.5,5.5" />
+        <NodeLayout
+          Size="183.2,44"
+          Id="Package\Metadata Report Recipients\Load ETLReportRecipients"
+          TopLeft="38.5,109.5" />
+        <NodeLayout
+          Size="144,44"
+          Id="Package\Metadata Report Recipients\MERGE Recipients"
+          TopLeft="58,213.5" />
+        <NodeLayout
+          Size="248.8,44"
+          Id="Package\Metadata Report Recipients\Truncate ETLMetadataReportRecipients"
+          TopLeft="5.5,5.5" />
+        <EdgeLayout
+          Id="Package\Metadata Report Recipients.PrecedenceConstraints[Constraint]"
+          TopLeft="130,153.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Metadata Report Recipients.PrecedenceConstraints[Constraint 1]"
+          TopLeft="130,49.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="260,312"
+          Size="260,356"
+          Id="Package\Metadata Report Recipients"
+          TopLeft="95.0000000000001,733.5" />
+        <NodeLayout
+          Size="151.2,44"
+          Id="Package\Metadata Structures\Load ETLStructures"
+          TopLeft="15.5,109.5" />
+        <NodeLayout
+          Size="144.8,44"
+          Id="Package\Metadata Structures\MERGE Structures"
+          TopLeft="18.5,213.5" />
+        <NodeLayout
+          Size="171.2,44"
+          Id="Package\Metadata Structures\Truncate ETLStructures"
+          TopLeft="5.50000000000001,5.5" />
+        <EdgeLayout
+          Id="Package\Metadata Structures.PrecedenceConstraints[Constraint]"
+          TopLeft="91,153.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Metadata Structures.PrecedenceConstraints[Constraint 1]"
+          TopLeft="91,49.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="182.4,312"
+          Size="182.4,356"
+          Id="Package\Metadata Structures"
+          TopLeft="134,317.5" />
+        <NodeLayout
+          Size="102.4,41.6"
+          Id="Package\Step 1000\1001"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="102.4,41.6"
+          Id="Package\Step 1000\1002"
+          TopLeft="168.5,5.5" />
+        <NodeLayout
+          Size="102.4,41.6"
+          Id="Package\Step 1000\1003"
+          TopLeft="331.5,5.5" />
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="439.2,102.4"
+          Size="439.2,145.6"
+          Id="Package\Step 1000"
+          TopLeft="5.50000000000014,1149.5" />
+        <NodeLayout
+          Size="193.6,44"
+          Id="Package\Update Configs Indexes"
+          TopLeft="128,1355.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="225,257.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="225,1295.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="225,673.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="225,1399.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-25.304453125,20.4453125,50.60890625,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="225,1089.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <ConnectionManager
+    design-time-name="Package.ConnectionManagers[SSIS Configurations]">
+    <DataSourceID>SSIS Configurations</DataSourceID>
+  </ConnectionManager>
+  <TaskHost
+    design-time-name="Package\Metadata Report Recipients\Load ETLReportRecipients">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="140,44"
+          Id="Package\Metadata Report Recipients\Load ETLReportRecipients\ReportRecipients"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="320,44"
+          Id="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients"
+          TopLeft="8.5188679245283,123.311320754717" />
+        <EdgeLayout
+          Id="Package\Metadata Report Recipients\Load ETLReportRecipients.Paths[Excel Source Output]"
+          TopLeft="75.3867924528302,49.4245283018868">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="93.3584905660377,73.8867924528302"
+              Start="0,0"
+              End="93.3584905660377,66.3867924528302">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.9433962264151" />
+                  <mssgle:LineSegment
+                    End="93.3584905660377,36.9433962264151" />
+                  <mssgle:LineSegment
+                    End="93.3584905660377,66.3867924528302" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Metadata Report Recipients\Load ETLReportRecipients\SSIS_ExecutionLog_ETLMetadataReportRecipients">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Metadata Structures\Load ETLStructures">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="269,44"
+          Id="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures"
+          TopLeft="248.367924528302,192.915094339623" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Metadata Structures\Load ETLStructures\ETLStructures"
+          TopLeft="175.5,46.5" />
+        <EdgeLayout
+          Id="Package\Metadata Structures\Load ETLStructures.Paths[Excel Source Output]"
+          TopLeft="243.5,90.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="139.367924528302,102.415094339623"
+              Start="0,0"
+              End="139.367924528302,94.9150943396226">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,47.2075471698113" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,47.2075471698113"
+                    Point2="0,51.2075471698113"
+                    Point3="4,51.2075471698113" />
+                  <mssgle:LineSegment
+                    End="135.367924528302,51.2075471698113" />
+                  <mssgle:CubicBezierSegment
+                    Point1="135.367924528302,51.2075471698113"
+                    Point2="139.367924528302,51.2075471698113"
+                    Point3="139.367924528302,55.2075471698113" />
+                  <mssgle:LineSegment
+                    End="139.367924528302,94.9150943396226" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Metadata Structures\Load ETLStructures\ETLStructures">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Metadata Structures\Load ETLStructures\SSIS_ExecutionLog_ETLMetadataStructures">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
